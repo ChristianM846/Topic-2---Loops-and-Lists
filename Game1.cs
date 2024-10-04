@@ -15,10 +15,11 @@ namespace Topic_2___Loops_and_Lists
 
         Random generator = new Random();
 
-        Texture2D backgroundTexture;
+        Texture2D spaceBackgroundTexture;
         Rectangle windowRect;
 
         List<Texture2D> textures;
+        List<Texture2D> planetTextures;
         List<Rectangle> planetRects;
 
         public Game1()
@@ -32,6 +33,7 @@ namespace Topic_2___Loops_and_Lists
         {
             windowRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             textures = new List<Texture2D>();
+            planetTextures = new List<Texture2D>();
             planetRects = new List<Rectangle>();
 
             for (int i = 0; i < 30; i++)
@@ -45,8 +47,13 @@ namespace Topic_2___Loops_and_Lists
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            spaceBackgroundTexture = Content.Load<Texture2D>("Images/space_background");
 
-            // TODO: use this.Content to load your game content here
+            for (int i = 1 ;i <= 13 ;i++)
+            {
+                textures.Add(Content.Load<Texture2D>("Images/16-bit-planet" + i));
+            }
+
         }
 
         protected override void Update(GameTime gameTime)
