@@ -17,6 +17,9 @@ namespace Topic_2___Loops_and_Lists
         float seconds;
         float respawnTime;
 
+        MouseState mouseState;
+        MouseState prevState;
+
         Texture2D spaceBackgroundTexture;
         Rectangle windowRect;
 
@@ -34,7 +37,7 @@ namespace Topic_2___Loops_and_Lists
         protected override void Initialize()
         {
             seconds = 0f;
-            respawnTime = 3f;
+            respawnTime = 1f;
 
 
             windowRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
@@ -61,6 +64,8 @@ namespace Topic_2___Loops_and_Lists
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            mouseState = Mouse.GetState();
+
             seconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (seconds > respawnTime)
@@ -70,8 +75,27 @@ namespace Topic_2___Loops_and_Lists
                 seconds = 0f;
             }
 
+            if (mouseState.LeftButton == ButtonState.Pressed && prevState.LeftButton == ButtonState.Released)
+            {
+                for (int i = 0; i < planetRects.Count; i++)
+                {
+                    if (planetRects[i].Contains(mouseState.Position))
+                    {
+                        planetRects.RemoveAt(i);
+                        planetTextures.RemoveAt(i);
+                        i--;
+
+                        if (planetRects.Count == 0)
+                        {
+                            this.Exit();
+                        }
+                    }
+                }
+            }
 
 
+
+            prevState = Mouse.GetState();
             base.Update(gameTime);
         }
 
